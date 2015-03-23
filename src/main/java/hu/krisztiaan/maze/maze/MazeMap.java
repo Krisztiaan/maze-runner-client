@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by Krisz on 2015.03.23..
- */
 public class MazeMap {
     private static final Logger log = Logger.getLogger(MazeMap.class.getName());
     private String mMazeId = "";
@@ -104,8 +101,7 @@ public class MazeMap {
     }
 
     public boolean markSolution(Point destination) {
-        if (mField[destination.y][destination.x] == FieldType.ROAD
-                || mField[destination.y][destination.x] == FieldType.TAKEN_ROAD) {
+        if (isValidTarget(destination)) {
             mField[destination.y][destination.x] = FieldType.SOLUTION;
         } else if (mField[destination.y][destination.x] == FieldType.WALL) return false;
         return true;

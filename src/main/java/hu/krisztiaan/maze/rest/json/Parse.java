@@ -1,7 +1,6 @@
 package hu.krisztiaan.maze.rest.json;
 
 import hu.krisztiaan.maze.maze.FieldType;
-import hu.krisztiaan.maze.maze.MazeMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,21 +38,19 @@ public class Parse {
     }
 
     public static int height(String mazeId, String source) throws JSONException{
-        ArrayList<String> collectedMazes = new ArrayList<String>();
         JSONObject obj = new JSONObject(source);
         JSONArray mazes = obj.getJSONArray("mazes");
         for (int i = 0; i < mazes.length(); i++) {
-            if(mazes.getJSONObject(i).getString("code").equals(mazeId)) return mazes.getJSONObject(i).getInt("width");
+            if (mazes.getJSONObject(i).getString("code").equals(mazeId)) return mazes.getJSONObject(i).getInt("height");
         }
         return -1;
     }
 
     public static int width(String mazeId, String source) throws JSONException{
-        ArrayList<String> collectedMazes = new ArrayList<String>();
         JSONObject obj = new JSONObject(source);
         JSONArray mazes = obj.getJSONArray("mazes");
         for (int i = 0; i < mazes.length(); i++) {
-            if(mazes.getJSONObject(i).getString("code").equals(mazeId)) return mazes.getJSONObject(i).getInt("height");
+            if (mazes.getJSONObject(i).getString("code").equals(mazeId)) return mazes.getJSONObject(i).getInt("width");
         }
         return -1;
     }

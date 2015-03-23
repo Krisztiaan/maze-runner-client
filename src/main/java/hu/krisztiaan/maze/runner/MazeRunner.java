@@ -1,17 +1,12 @@
 package hu.krisztiaan.maze.runner;
 
 import hu.krisztiaan.maze.maze.Direction;
-import hu.krisztiaan.maze.maze.FieldType;
 import hu.krisztiaan.maze.maze.MazeMap;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by Krisz on 2015.03.23..
- */
 public class MazeRunner {
     private static final Logger log = Logger.getLogger(MazeMap.class.getName());
 
@@ -35,9 +30,11 @@ public class MazeRunner {
 
         if(mMazeMap.isFinish(origin)) {
             mMazeMap.markSolution(origin);
+            log.log(Level.INFO, "Mark " + origin.toString() + " as solution.");
             return true;
         } else {
             mMazeMap.markTraversed(origin);
+            log.log(Level.INFO, "Mark " + origin.toString() + " as traversed.");
         }
 
         for(Direction direction : Direction.values()) {
@@ -48,7 +45,7 @@ public class MazeRunner {
                     (mMazeMap.isValidTarget(direction.destinationFromPoint(origin))));
 
             if(run(direction.destinationFromPoint(origin))) {
-                mMazeMap.markSolution(direction.destinationFromPoint(origin));
+                mMazeMap.markSolution(origin);
                 return true;
             }
         }

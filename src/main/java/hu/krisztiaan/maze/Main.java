@@ -14,7 +14,7 @@ public class Main {
 
         String[] argse = new String[2];
         argse[0] = "http://localhost:8080";
-        argse[1] = "maze-1";
+        argse[1] = "maze-2";
 
         MazeMap myMap;
         // write your code here
