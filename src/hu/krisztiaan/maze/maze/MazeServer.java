@@ -10,14 +10,12 @@ import sun.plugin.dom.exception.InvalidStateException;
 
 import java.awt.*;
 import java.net.MalformedURLException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.MissingResourceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by Krisz on 2015.03.23..
- */
 public class MazeServer {
     private static final Logger log = Logger.getLogger(MazeServer.class.getName());
 
@@ -32,7 +30,7 @@ public class MazeServer {
         }
     }
 
-    public static ArrayList<MazeMap> getAvailableMazes() throws MalformedURLException {
+    public static ArrayList<MazeMap> getAvailableMazes() {
         checkServerAddress();
         try {
             return Parse.mazes(Server.GetData(serverAddress, Request.mazesUrl()));
@@ -41,10 +39,12 @@ public class MazeServer {
             throw new RuntimeException(e);
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        } catch (MalformedURLException e) {
+            throw new InvalidParameterException(e.getMessage());
         }
     }
 
-    public static Point getMazeStart(String mazeId) throws MalformedURLException {
+    public static Point getMazeStart(String mazeId) {
         checkServerAddress();
         try {
             return Parse.start(Server.GetData(serverAddress, Request.startUrl(mazeId)));
@@ -52,10 +52,12 @@ public class MazeServer {
             throw new MissingResourceException("The " + mazeId + " map does not exist.", "MazeServer", mazeId);
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        }catch (MalformedURLException e) {
+            throw new InvalidParameterException(e.getMessage());
         }
     }
 
-    public static int getMazeWidth(String mazeId) throws MalformedURLException {
+    public static int getMazeWidth(String mazeId) {
         checkServerAddress();
         for (MazeMap currentMaze : getAvailableMazes()) {
             if (currentMaze.getId() == mazeId) return currentMaze.getHeight();
@@ -63,7 +65,7 @@ public class MazeServer {
         return 0;
     }
 
-    public static int getMazeHeight(String mazeId) throws MalformedURLException {
+    public static int getMazeHeight(String mazeId) {
         checkServerAddress();
         for (MazeMap currentMaze : getAvailableMazes()) {
             if (currentMaze.getId() == mazeId) return currentMaze.getWidth();
@@ -71,7 +73,7 @@ public class MazeServer {
         return 0;
     }
 
-    public static FieldType getMoveResult(String mazeId, Point origin, Direction direction) throws MalformedURLException {
+    public static FieldType getMoveResult(String mazeId, Point origin, Direction direction) {
         try {
             return Parse.moveResult(Server.PostData(serverAddress, Request.moveUrl(mazeId), Request.move(origin, direction)));
         } catch (HttpResponseException e) {
@@ -89,6 +91,8 @@ public class MazeServer {
             }
         } catch (JSONException e) {
             throw new RuntimeException(e);
+        } catch (MalformedURLException e) {
+            throw new InvalidParameterException(e.getMessage());
         }
     }
 }

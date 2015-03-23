@@ -31,8 +31,11 @@ public class Parse {
 
     public static FieldType moveResult(String source) throws JSONException {
         JSONObject obj = new JSONObject(source);
-        return obj.getString("field")=="."
-                ? FieldType.ROAD : FieldType.FINISH;
+        String field = obj.getString("field");
+
+        if(field.equals(".")) return FieldType.ROAD;
+        else if(field.equals("@")) return FieldType.START;
+        else return FieldType.ROAD;
     }
 
 }
