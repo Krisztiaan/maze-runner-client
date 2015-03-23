@@ -84,7 +84,7 @@ public class Server {
             remoteServerUrl = new URL(urlAddress + subUrl);
             HttpURLConnection conn = (HttpURLConnection) remoteServerUrl.openConnection();
 
-            log.log(Level.INFO, "Sending request.");
+            log.log(Level.INFO, "Sending request:\n" + input);
 
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");

@@ -50,10 +50,10 @@ public class MazeMap {
     }
 
     public FieldType getFieldTypeAt(Point position) {
-        try{
-        return mField[position.x][position.y];
+        try {
+            return mField[position.x][position.y];
         } catch (ArrayIndexOutOfBoundsException e) {
-            return FieldType.WALL;
+            return FieldType.BORDER;
         }
     }
 
@@ -62,9 +62,13 @@ public class MazeMap {
     }
 
     public boolean isValidTarget(Point there) {
-            log.log(Level.INFO, "Is Point(" + there.x + "," + there.y + ") a Road? It's "+getFieldTypeAt(there).toString());
-            return getFieldTypeAt(there) == FieldType.UNKNOWN
-                    && getFieldTypeAt(there) == FieldType.ROAD;
+        log.log(Level.INFO, "Point(" + there.x + "," + there.y + ") is currently " + getFieldTypeAt(there).toString());
+
+        return getFieldTypeAt(there).equals(FieldType.UNKNOWN)
+                || getFieldTypeAt(there).equals(FieldType.ROAD)
+                || getFieldTypeAt(there).equals(FieldType.START)
+                || getFieldTypeAt(there).equals(FieldType.FINISH);
+
     }
 
     private boolean setField(Point field, FieldType type) {
@@ -72,17 +76,22 @@ public class MazeMap {
             mField[field.x][field.y] = type;
             return true;
         } catch (ArrayIndexOutOfBoundsException e) {
+            log.log(Level.WARNING, "setField Point is out of bounds.");
             return false;
         }
     }
 
     public FieldType reveal(Point origin, Direction direction) {
-        log.log(Level.INFO, "Movement from " + origin.toString() + " to direction " + direction.toString());
+        log.log(Level.INFO, "Moving from " + origin.toString() + " to direction " + direction.toString());
 
-        if(origin.x<0||origin.y<0||origin.x>getWidth()||origin.y>getHeight()) return FieldType.WALL;
-        else if(getFieldTypeAt(direction.destinationFromPoint(origin)) == FieldType.UNKNOWN) {
+        if (!isValidTarget(direction.destinationFromPoint(origin)))
+            return FieldType.BORDER;
+
+        else if (getFieldTypeAt(direction.destinationFromPoint(origin)) == FieldType.UNKNOWN) {
+            log.log(Level.INFO, "Unnown field, let's get data from server.");
             setField(direction.destinationFromPoint(origin), MazeServer.getMoveResult(mMazeId, origin, direction));
         }
+        log.log(Level.INFO, "Revealed: " + direction.destinationFromPoint(origin) + " is " + getFieldTypeAt(direction.destinationFromPoint(origin)));
 
         return getFieldTypeAt(direction.destinationFromPoint(origin));
     }
@@ -107,7 +116,7 @@ public class MazeMap {
         System.out.println("\nPrinting map (" + mMazeId + ")\n");
         for (int i = 0; i < getWidth(); i++) {
             for (int j = 0; j < getHeight(); j++) {
-                System.out.print(mField[i][j].toString());
+                System.out.print(mField[j][i].toString());
             }
             System.out.println();
         }

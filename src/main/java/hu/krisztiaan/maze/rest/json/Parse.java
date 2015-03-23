@@ -34,6 +34,7 @@ public class Parse {
 
         if (field.equals(".")) return FieldType.ROAD;
         else if (field.equals("@")) return FieldType.START;
+        else if (field.equals("x")) return FieldType.FINISH;
         else return FieldType.ROAD;
     }
 

@@ -9,6 +9,7 @@ public enum FieldType {
     TAKEN_ROAD,
     SOLUTION,
     WALL,
+    BORDER,
     START,
     FINISH;
 

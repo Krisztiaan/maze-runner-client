@@ -15,15 +15,7 @@ import java.util.logging.Logger;
 public class MazeRunner {
     private static final Logger log = Logger.getLogger(MazeMap.class.getName());
 
-    final static FieldType TRIED = FieldType.TAKEN_ROAD;
-    final static FieldType PATH = FieldType.ROAD;
-    final static FieldType END = FieldType.FINISH;
-
-    MazeMap mMazeMap;
-    Point currentPosition;
-    ArrayList<Direction> movesMade = new ArrayList<Direction>();
-    ArrayList<Direction> optimalRoute = new ArrayList<Direction>();
-
+    public MazeMap mMazeMap;
     public MazeRunner(MazeMap map) {
         mMazeMap = map;
     }
@@ -34,8 +26,12 @@ public class MazeRunner {
     }
 
     public boolean run(Point origin) {
-        log.log(Level.INFO, "\n" + origin.toString() + "\n notRoad="+(!mMazeMap.isValidTarget(origin))+"\nisStart="+(mMazeMap.getStart()!=origin));
-        if(!mMazeMap.isValidTarget(origin)&&mMazeMap.getStart()!=origin) return false;
+        log.log(Level.INFO, "Is " +
+                origin.toString() +
+                " a valid field: " +
+                (mMazeMap.isValidTarget(origin)));
+
+        if(!mMazeMap.isValidTarget(origin)) return false;
 
         if(mMazeMap.isFinish(origin)) {
             mMazeMap.markSolution(origin);
@@ -46,12 +42,16 @@ public class MazeRunner {
 
         for(Direction direction : Direction.values()) {
             mMazeMap.reveal(origin, direction);
+            log.log(Level.INFO, "Is " +
+                    direction.destinationFromPoint(origin) +
+                    " a valid field: "+
+                    (mMazeMap.isValidTarget(direction.destinationFromPoint(origin))));
+
             if(run(direction.destinationFromPoint(origin))) {
                 mMazeMap.markSolution(direction.destinationFromPoint(origin));
                 return true;
             }
         }
-
         return false;
     }
 }
