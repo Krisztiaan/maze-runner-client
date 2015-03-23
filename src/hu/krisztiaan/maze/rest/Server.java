@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class Server {
 
-    private static final Logger log = Logger.getLogger(GetData.class.getName());
+    private static final Logger log = Logger.getLogger(Server.class.getName());
     private static URL remoteServerUrl;
 
     public static String GetData(String urlAddress, String subUrl)
