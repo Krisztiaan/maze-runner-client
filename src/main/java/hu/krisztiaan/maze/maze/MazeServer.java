@@ -11,7 +11,6 @@ import sun.plugin.dom.exception.InvalidStateException;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
 import java.util.MissingResourceException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,20 +29,20 @@ public class MazeServer {
         }
     }
 
-    public static ArrayList<String> getAvailableMazeIds() {
-        checkServerAddress();
-        log.log(Level.INFO, "Getting available mazes");
-        try {
-            return Parse.mazeIds(Server.GetData(serverAddress, Request.mazesUrl()));
-        } catch (HttpResponseException e) {
-            log.log(Level.INFO, "This should not really happen");
-            throw new RuntimeException(e);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (MalformedURLException e) {
-            throw new InvalidParameterException(e.getMessage());
-        }
-    }
+//    public static ArrayList<String> getAvailableMazeIds() {
+//        checkServerAddress();
+//        log.log(Level.FINE, "Getting available mazes");
+//        try {
+//            return Parse.mazeIds(Server.GetData(serverAddress, Request.mazesUrl()));
+//        } catch (HttpResponseException e) {
+//            log.log(Level.FINE, "This should not really happen");
+//            throw new RuntimeException(e);
+//        } catch (JSONException e) {
+//            throw new RuntimeException(e);
+//        } catch (MalformedURLException e) {
+//            throw new InvalidParameterException(e.getMessage());
+//        }
+//    }
 
     public static Point getMazeStart(String mazeId) {
         checkServerAddress();
@@ -60,11 +59,11 @@ public class MazeServer {
 
     public static int getMazeHeight(String mazeId) {
         checkServerAddress();
-        log.log(Level.INFO, "Getting " +mazeId+ "'s height.");
+        log.log(Level.FINE, "Getting " + mazeId + "'s height.");
         try {
             return Parse.height(mazeId, Server.GetData(serverAddress, Request.mazesUrl()));
         } catch (HttpResponseException e) {
-            log.log(Level.INFO, "This should not really happen");
+            log.log(Level.FINE, "This should not really happen");
             throw new RuntimeException(e);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -75,11 +74,11 @@ public class MazeServer {
 
     public static int getMazeWidth(String mazeId) {
         checkServerAddress();
-        log.log(Level.INFO, "Getting " +mazeId+ "'s width.");
+        log.log(Level.FINE, "Getting " + mazeId + "'s width.");
         try {
             return Parse.width(mazeId, Server.GetData(serverAddress, Request.mazesUrl()));
         } catch (HttpResponseException e) {
-            log.log(Level.INFO, "This should not really happen");
+            log.log(Level.FINE, "This should not really happen");
             throw new RuntimeException(e);
         } catch (JSONException e) {
             throw new RuntimeException(e);

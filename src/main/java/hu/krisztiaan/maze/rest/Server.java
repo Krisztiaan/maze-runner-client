@@ -20,17 +20,17 @@ public class Server {
 
         try {
 
-            log.log(Level.INFO, "Setting up connection to: " + urlAddress);
+            log.log(Level.FINE, "Setting up connection to: " + urlAddress);
 
             remoteServerUrl = new URL(urlAddress + subUrl);
             HttpURLConnection conn = (HttpURLConnection) remoteServerUrl.openConnection();
 
-            log.log(Level.INFO, "Sending request.");
+            log.log(Level.FINE, "Sending request.");
 
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
 
-            log.log(Level.INFO, "HTTP response: "
+            log.log(Level.FINE, "HTTP response: "
                     + conn.getResponseCode() + " "
                     + conn.getResponseMessage());
 
@@ -39,25 +39,25 @@ public class Server {
                         + conn.getResponseCode(), conn.getResponseCode());
             }
 
-            log.log(Level.INFO, "Creating BufferedReader from conn InputStream.");
+            log.log(Level.FINE, "Creating BufferedReader from conn InputStream.");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
 
-            log.log(Level.INFO, "Writing from BufferedReader to output");
+            log.log(Level.FINE, "Writing from BufferedReader to output");
 
             StringBuilder builder = new StringBuilder();
-            String aux = "";
+            String aux;
 
             while ((aux = br.readLine()) != null) {
                 builder.append(aux);
             }
 
-            log.log(Level.INFO, "Output ready. Content:\n--------\n" + builder.toString() + "\n--------");
+            log.log(Level.FINE, "Output ready. Content:\n--------\n" + builder.toString() + "\n--------");
 
-            log.log(Level.INFO, "Disconnecting.");
+            log.log(Level.FINE, "Disconnecting.");
             conn.disconnect();
-            log.log(Level.INFO, "Disconnected.");
+            log.log(Level.FINE, "Disconnected.");
 
             return builder.toString();
 
@@ -79,24 +79,24 @@ public class Server {
 
         try {
 
-            log.log(Level.INFO, "Setting up connection to: " + urlAddress);
+            log.log(Level.FINE, "Setting up connection to: " + urlAddress);
 
             remoteServerUrl = new URL(urlAddress + subUrl);
             HttpURLConnection conn = (HttpURLConnection) remoteServerUrl.openConnection();
 
-            log.log(Level.INFO, "Sending request:\n" + input);
+            log.log(Level.FINE, "Sending request:\n" + input);
 
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json");
 
-            log.log(Level.INFO, "Writing to OutputStream.");
+            log.log(Level.FINE, "Writing to OutputStream.");
 
             OutputStream os = conn.getOutputStream();
             os.write(input.getBytes());
             os.flush();
 
-            log.log(Level.INFO, "HTTP response: "
+            log.log(Level.FINE, "HTTP response: "
                     + conn.getResponseCode() + " "
                     + conn.getResponseMessage());
 
@@ -105,25 +105,25 @@ public class Server {
                         + conn.getResponseCode(), conn.getResponseCode());
             }
 
-            log.log(Level.INFO, "Creating BufferedReader.");
+            log.log(Level.FINE, "Creating BufferedReader.");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
 
-            log.log(Level.INFO, "Writing from BufferedReader to output.");
+            log.log(Level.FINE, "Writing from BufferedReader to output.");
 
             StringBuilder builder = new StringBuilder();
-            String aux = "";
+            String aux;
 
             while ((aux = br.readLine()) != null) {
                 builder.append(aux);
             }
 
-            log.log(Level.INFO, "Result ready. Content:\n--------\n" + builder.toString() + "\n--------");
+            log.log(Level.FINE, "Result ready. Content:\n--------\n" + builder.toString() + "\n--------");
 
-            log.log(Level.INFO, "Disconnecting.");
+            log.log(Level.FINE, "Disconnecting.");
             conn.disconnect();
-            log.log(Level.INFO, "Disconnected.");
+            log.log(Level.FINE, "Disconnected.");
 
             return builder.toString();
 

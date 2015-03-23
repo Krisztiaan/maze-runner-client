@@ -21,7 +21,7 @@ public class MazeRunner {
     }
 
     public boolean run(Point origin) {
-        log.log(Level.INFO, "Is " +
+        log.log(Level.FINE, "Is " +
                 origin.toString() +
                 " a valid field: " +
                 (mMazeMap.isValidTarget(origin)));
@@ -29,23 +29,22 @@ public class MazeRunner {
         if(!mMazeMap.isValidTarget(origin)) return false;
 
         if(mMazeMap.isFinish(origin)) {
-            mMazeMap.markSolution(origin);
-            log.log(Level.INFO, "Mark " + origin.toString() + " as solution.");
+            mMazeMap.markTraversed(origin);
+            log.log(Level.FINE, "Mark " + origin.toString() + " as solution.");
             return true;
         } else {
-            mMazeMap.markTraversed(origin);
-            log.log(Level.INFO, "Mark " + origin.toString() + " as traversed.");
+            mMazeMap.markSolution(origin);
+            log.log(Level.FINE, "Mark " + origin.toString() + " as traversed.");
         }
 
         for(Direction direction : Direction.values()) {
             mMazeMap.reveal(origin, direction);
-            log.log(Level.INFO, "Is " +
+            log.log(Level.FINE, "Is " +
                     direction.destinationFromPoint(origin) +
                     " a valid field: "+
                     (mMazeMap.isValidTarget(direction.destinationFromPoint(origin))));
 
             if(run(direction.destinationFromPoint(origin))) {
-                mMazeMap.markSolution(origin);
                 return true;
             }
         }

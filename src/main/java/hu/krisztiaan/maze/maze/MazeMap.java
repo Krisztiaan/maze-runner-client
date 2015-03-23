@@ -28,9 +28,9 @@ public class MazeMap {
         mField[mStartingPoint.x][mStartingPoint.y] = FieldType.START;
     }
 
-    public String getId() {
-        return mMazeId;
-    }
+//    public String getId() {
+//        return mMazeId;
+//    }
 
     public int getWidth() {
         if (mField != null) return mField[0].length;
@@ -59,7 +59,7 @@ public class MazeMap {
     }
 
     public boolean isValidTarget(Point there) {
-        log.log(Level.INFO, "Point(" + there.x + "," + there.y + ") is currently " + getFieldTypeAt(there).toString());
+        log.log(Level.FINE, "Point(" + there.x + "," + there.y + ") is currently " + getFieldTypeAt(there).toString());
 
         return getFieldTypeAt(there).equals(FieldType.UNKNOWN)
                 || getFieldTypeAt(there).equals(FieldType.ROAD)
@@ -79,16 +79,16 @@ public class MazeMap {
     }
 
     public FieldType reveal(Point origin, Direction direction) {
-        log.log(Level.INFO, "Moving from " + origin.toString() + " to direction " + direction.toString());
+        log.log(Level.FINE, "Moving from " + origin.toString() + " to direction " + direction.toString());
 
         if (!isValidTarget(direction.destinationFromPoint(origin)))
             return FieldType.BORDER;
 
         else if (getFieldTypeAt(direction.destinationFromPoint(origin)) == FieldType.UNKNOWN) {
-            log.log(Level.INFO, "Unnown field, let's get data from server.");
+            log.log(Level.FINE, "Unnown field, let's get data from server.");
             setField(direction.destinationFromPoint(origin), MazeServer.getMoveResult(mMazeId, origin, direction));
         }
-        log.log(Level.INFO, "Revealed: " + direction.destinationFromPoint(origin) + " is " + getFieldTypeAt(direction.destinationFromPoint(origin)));
+        log.log(Level.FINE, "Revealed: " + direction.destinationFromPoint(origin) + " is " + getFieldTypeAt(direction.destinationFromPoint(origin)));
 
         return getFieldTypeAt(direction.destinationFromPoint(origin));
     }
@@ -96,15 +96,19 @@ public class MazeMap {
     public boolean markTraversed(Point destination) {
         if (getFieldTypeAt(destination) == FieldType.ROAD) {
             setField(destination, FieldType.TAKEN_ROAD);
-        } else if (getFieldTypeAt(destination) == FieldType.WALL) return false;
-        return true;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean markSolution(Point destination) {
         if (isValidTarget(destination)) {
-            mField[destination.y][destination.x] = FieldType.SOLUTION;
-        } else if (mField[destination.y][destination.x] == FieldType.WALL) return false;
-        return true;
+            mField[destination.x][destination.y] = FieldType.SOLUTION;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void printMap() {

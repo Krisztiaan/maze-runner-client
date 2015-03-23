@@ -12,18 +12,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String[] argse = new String[2];
-        argse[0] = "http://localhost:8080";
-        argse[1] = "maze-2";
-
         MazeMap myMap;
-        // write your code here
-        log.log(Level.INFO, "'morning!");
-        MazeServer.serverAddress = argse[0];
-        log.log(Level.INFO, MazeServer.serverAddress);
-        myMap = new MazeMap(argse[1]);
+        log.log(Level.FINE, "'morning!");
+        MazeServer.serverAddress = args[0];
+        log.log(Level.FINE, MazeServer.serverAddress);
+        myMap = new MazeMap(args[1]);
         myMap.printMap();
-        System.out.print("It's a great day for a run! Let's send Joe to " + argse[1]);
+        System.out.println("It's a great day for a run! Let's send Joe to " + args[1]);
         MazeRunner runnerJoe = new MazeRunner(myMap);
         runnerJoe.findExit().printMap();
     }
