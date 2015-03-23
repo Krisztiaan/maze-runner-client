@@ -6,12 +6,16 @@ import java.awt.*;
 
 public class Request {
 
-    public static String mazes() {
-        return "/mazes";
+    public static String mazesUrl() {
+        return "/mazesUrl";
     }
 
-    public static String start(String mazeId) {
+    public static String startUrl(String mazeId) {
         return "/mazes/" + mazeId + "/position/start";
+    }
+
+    public static String moveUrl(String mazeId) {
+        return "/mazes/" + mazeId + "/position";
     }
 
     public static String move(Point from, Direction direction) {

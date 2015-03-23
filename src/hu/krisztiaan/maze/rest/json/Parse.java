@@ -15,7 +15,7 @@ public class Parse {
     public static ArrayList<MazeMap> mazes(String source) throws JSONException{
         ArrayList<MazeMap> collectedMazes = new ArrayList<MazeMap>();
         JSONObject obj = new JSONObject(source);
-        JSONArray arr = obj.getJSONArray("mazes");
+        JSONArray arr = obj.getJSONArray("mazesUrl");
 
         for(int i=0;i<arr.length();i++){
             collectedMazes.add(new MazeMap(arr.getJSONObject(i).getString("code")));
@@ -30,11 +30,7 @@ public class Parse {
     }
 
     public static FieldType moveResult(String source) throws JSONException {
-        FieldType field;
         JSONObject obj = new JSONObject(source);
-        switch (obj.getString("field")) {
-            "."
-        }
         return obj.getString("field")=="."
                 ? FieldType.ROAD : FieldType.FINISH;
     }
