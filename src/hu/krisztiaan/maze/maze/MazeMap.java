@@ -41,5 +41,19 @@ public class MazeMap {
         else return 0;
     }
 
+    public FieldType move(Point origin, Direction direction) {
+        return MazeServer.getMoveResult(mMazeId, origin, direction);
+    }
+
+    public void printMap() {
+        System.out.println("\nPrinting map (" + mMazeId + ")\n");
+        for (int i = 0; i < mField.length; i++) {
+            for (int j = 0; j < mField.length; j++) {
+                System.out.print(mField[i][j].toString());
+            }
+            System.out.println();
+        }
+        System.out.println("\nDone with map. (" + mMazeId + ")\n");
+    }
 
 }
